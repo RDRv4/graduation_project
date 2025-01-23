@@ -1,0 +1,23 @@
+version: '3.10'
+
+services:
+  managment_db:
+    image: postgres:14
+    volumes:
+      - managment_postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+  web:
+    build: .
+    image: managment
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - managment_db
+
+volumes:
+  managment_postgres_data:
